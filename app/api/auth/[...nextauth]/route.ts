@@ -1,3 +1,4 @@
+import "@/app/patch-env";
 import NextAuth from "next-auth";
 import { authOptions } from "@/lib/auth";
 
