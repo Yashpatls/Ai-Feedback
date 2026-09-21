@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
 
 export async function GET() {
   const envStatus = {
@@ -11,23 +10,9 @@ export async function GET() {
     NODE_ENV: process.env.NODE_ENV,
   };
 
-  let dbStatus = "Not tested";
-  let dbError = null;
-  
-  if (process.env.DATABASE_URL) {
-    try {
-      // Just test connection
-      await db.$queryRaw`SELECT 1`;
-      dbStatus = "Connected";
-    } catch (e: any) {
-      dbStatus = "Failed";
-      dbError = e.message;
-    }
-  }
-
   return NextResponse.json({
     timestamp: new Date().toISOString(),
     env: envStatus,
-    db: { status: dbStatus, error: dbError }
+    db: { status: "Prisma removed for debugging", error: null }
   });
 }
