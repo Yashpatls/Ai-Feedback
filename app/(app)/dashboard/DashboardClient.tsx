@@ -36,7 +36,7 @@ export function DashboardClient({ user }: { user: { name?: string | null; worksp
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/api/dashboard?days=${days}`, { cache: "no-store" })
+    fetch(`/api/summary?days=${days}`, { cache: "no-store" })
       .then((r) => r.json())
       .then(setData)
       .finally(() => setLoading(false));
