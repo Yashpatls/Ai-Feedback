@@ -34,11 +34,24 @@ export function DashboardClient({ user }: { user: { name?: string | null; worksp
   const [loading, setLoading] = useState(true);
   const [days, setDays] = useState(30);
 
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     setLoading(true);
+    setError(null);
     fetch(`/api/summary?days=${days}`, { cache: "no-store" })
-      .then((r) => r.json())
+      .then(async (r) => {
+        if (!r.ok) {
+          const text = await r.text();
+          throw new Error(`API error ${r.status}: ${text}`);
+        }
+        return r.json();
+      })
       .then(setData)
+      .catch((err) => {
+        console.error("Dashboard fetch error:", err);
+        setError(err.message);
+      })
       .finally(() => setLoading(false));
   }, [days]);
 
@@ -56,6 +69,17 @@ export function DashboardClient({ user }: { user: { name?: string | null; worksp
             <div className="col-span-2 h-72 bg-gray-200 rounded-xl" />
             <div className="h-72 bg-gray-200 rounded-xl" />
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-8 max-w-7xl mx-auto">
+        <div className="bg-red-50 text-red-600 p-4 rounded-lg">
+          <h2 className="font-bold mb-2">Failed to load dashboard data</h2>
+          <pre className="text-xs overflow-auto">{error}</pre>
         </div>
       </div>
     );
