@@ -12,6 +12,7 @@ const loginSchema = z.object({
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET || "loop-nextauth-secret-change-in-production-32chars",
+  trustHost: true,
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   providers: [
