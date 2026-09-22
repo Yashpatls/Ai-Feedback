@@ -6,7 +6,7 @@ if (!process.env.NEXTAUTH_URL) {
 }
 
 const nextConfig = {
-  allowedDevOrigins: ['192.168.1.78'],
+  allowedDevOrigins: ['192.168.1.78', '10.243.235.222'],
 };
 
 export default nextConfig;
